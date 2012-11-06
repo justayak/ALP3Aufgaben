@@ -23,6 +23,14 @@ public class main {
         int[] test = new int[]{1,2,3};
         List<int[]> result = permutations(test);
 
+        for(int i = 0; i < result.size(); i++){
+            int[] cur = result.get(i);
+            System.out.println("arr " + i);
+            for (int j = 0; j < cur.length; j++){
+                System.out.println( cur[j]);
+            }
+        }
+
         System.out.println("length: " + result.size());
 
 
@@ -44,44 +52,18 @@ public class main {
         return null;
     }
 
-    /**
-     * generates all permutations of a given array
-     * @param array
-     * @return
-     */
-    private static List<int[]> getPermutations(int[] array){
-        List<int[]> perms = new ArrayList<int[]>();
-
-
-
-
-        if (array.length == 2){
-            perms.add(array);
-            perms.add(Helper.reverse(array));
-        }else{
-
-
-
-
-        }
-
-        return null;
-    }
-
     private static List<int[]> permutations(int[] array){
         List<int[]> perms = new ArrayList<int[]>();
-        perms.add(array);
         int a = 0;
         int b = 1;
 
         int[] perm = array;
         do{
+            perms.add(perm);
             perm = permStep(perm, a, b);
             a = a == perm.length - 1 ? 0 : a+1;
             b = b == perm.length - 1 ? 0 : b+1;
-            perms.add(perm);
-        }while (!perm.equals(array));
-
+        }while (!Helper.arraysEqual(perm, array));
 
         return perms;
     }

@@ -28,7 +28,11 @@ public class Helper {
         if (a.length != b.length){
             return false;
         }
-        //for(int i = 0; i < )
+        for(int i = 0; i < a.length; i++){
+            if(a[i] != b[i]){
+                return false;
+            }
+        }
         return true;
     }
 
