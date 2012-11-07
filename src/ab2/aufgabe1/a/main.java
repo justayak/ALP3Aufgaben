@@ -18,20 +18,14 @@ import java.util.List;
  */
 public class main {
     public static void main(String[] args){
-        System.out.println("hallo123");
 
-        int[] test = new int[]{1,2,3};
-        List<int[]> result = permutations(test);
+        int[] test = new int[]{5,4,3,2,1};
+        int[] result = slowSort(test);
 
-        for(int i = 0; i < result.size(); i++){
-            int[] cur = result.get(i);
-            System.out.println("arr " + i);
-            for (int j = 0; j < cur.length; j++){
-                System.out.println( cur[j]);
-            }
+        for(int i = 0; i < result.length; i++){
+            int cur = result[i];
+            System.out.println(i + ":" + cur);
         }
-
-        System.out.println("length: " + result.size());
 
 
     }
@@ -47,33 +41,50 @@ public class main {
             return array;
         }
 
-
-
-        return null;
+        List<int[]> perms = permutations(array);
+        for(int[] perm : perms){
+            if (isSorted(perm)){
+                return perm;
+            }
+        }
+        throw new NoSuchFieldError("Wir tun so als sei das die <KeinePermutationGefunden>Exception");
     }
 
-    private static List<int[]> permutations(int[] array){
-        List<int[]> perms = new ArrayList<int[]>();
-        int a = 0;
-        int b = 1;
-
-        int[] perm = array;
-        do{
-            perms.add(perm);
-            perm = permStep(perm, a, b);
-            a = a == perm.length - 1 ? 0 : a+1;
-            b = b == perm.length - 1 ? 0 : b+1;
-        }while (!Helper.arraysEqual(perm, array));
-
-        return perms;
+    private static void swap (int[] array, int a, int b){
+        int temp = array[a];
+        array[a] = array[b];
+        array[b] = temp;
     }
 
-    private static int[] permStep(int[] src, int a, int b){
-        int[] result = (int[]) src.clone();
-        int temp = result[a];
-        result[a] = result[b];
-        result[b] = temp;
-        return result;
+    /**
+     * generates all permutations of the given array
+     * @param array
+     * @return
+     */
+    public static List<int[]> permutations (int[] array){
+        int endIndex = array.length-1;
+        List<int[]> accumulator = new ArrayList<int[]>();
+        permutations(array, endIndex, accumulator);
+        return accumulator;
+    }
+
+    /**
+     * generates all permutations recursivly
+     * @param array
+     * @param endIndex
+     * @param accumulator
+     */
+    private static void permutations (int[] array, int endIndex, List<int[]> accumulator){
+        if(endIndex==0){
+            accumulator.add((int[])array.clone());
+        } else{
+            permutations(array, endIndex -1, accumulator);
+            for(int i = 0; i <= endIndex-1; i++){
+                swap(array,i,endIndex);
+                permutations(array, endIndex-1, accumulator);
+                swap(array,i,endIndex);
+            }
+        }
     }
 
     /**

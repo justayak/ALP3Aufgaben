@@ -1,5 +1,8 @@
 package common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * ALP III - Julian
@@ -24,6 +27,12 @@ public class Helper {
         return result;
     }
 
+    /**
+     * checks if two arrays have same content
+     * @param a
+     * @param b
+     * @return
+     */
     public static boolean arraysEqual(int[] a, int[] b){
         if (a.length != b.length){
             return false;
