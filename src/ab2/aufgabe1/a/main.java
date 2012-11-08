@@ -1,11 +1,6 @@
 package ab2.aufgabe1.a;
 
-import common.Helper;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,7 +14,13 @@ import java.util.List;
 public class main {
     public static void main(String[] args){
 
-        int[] test = new int[]{5,4,3,2,1};
+        Random random = new Random();
+        int length = 8;
+        int[] test = new int[length];
+        for (int i = 0; i < length; i++){
+            test[i] = random.nextInt();
+        }
+
         int[] result = slowSort(test);
 
         for(int i = 0; i < result.length; i++){
@@ -27,8 +28,27 @@ public class main {
             System.out.println(i + ":" + cur);
         }
 
+        System.out.println("PERMS: " + BENCHMARK_permCount);
+
+        //==============================================================
+        // S T A T I S T I C S zur randomisierten Permutation (Aufgabe b)
+        //==============================================================
+
+        // jeweils 6 Durchläufe:   ~ Durchschnitt:
+        // 2 Elemente  --> [2][1][1][1][1][2]   ~ 1.333_
+        // 3 Elemente  --> [18][5][5][3][29][4] ~ 10.667_
+        // 4 Elemente  --> [8][9][18][40][18][47] ~ 23.333_
+        // 5 Elemente  --> [411][157][30][49][399][96] ~ 190.333_
+        // 6 Elemente  --> [3047][396][164][811][172][244] ~ 805.666_
 
     }
+
+    private static int BENCHMARK_permCount = 0;
+
+    /**
+     * Mit diesem Flag kann Aufgabe b an- und abgeschaltet werden
+     */
+    private static boolean IS_AUFGABE_B = false;
 
     /**
      * performs a slow sort on the target array and returns the sorted array
@@ -42,11 +62,25 @@ public class main {
         }
 
         List<int[]> perms = permutations(array);
-        for(int[] perm : perms){
-            if (isSorted(perm)){
-                return perm;
+        if (IS_AUFGABE_B){
+            Random random = new Random();
+            while (true){
+                BENCHMARK_permCount++;
+                int idx = random.nextInt(perms.size());
+                int[] perm = perms.get(idx);
+                if (isSorted(perm)){
+                    return perm;
+                }
+            }
+        } else{
+            for(int[] perm : perms){
+                BENCHMARK_permCount++;
+                if (isSorted(perm)){
+                    return perm;
+                }
             }
         }
+
         throw new NoSuchFieldError("Wir tun so als sei das die <KeinePermutationGefunden>Exception");
     }
 
@@ -70,6 +104,8 @@ public class main {
 
     /**
      * generates all permutations recursivly
+     * The last element is fixed and all permutations of the previous elements are generated (recursivly)
+     * Than swap the last element and procede till all elements have been the last element.
      * @param array
      * @param endIndex
      * @param accumulator
@@ -82,6 +118,7 @@ public class main {
             for(int i = 0; i <= endIndex-1; i++){
                 swap(array,i,endIndex);
                 permutations(array, endIndex-1, accumulator);
+                // reset to original state
                 swap(array,i,endIndex);
             }
         }
