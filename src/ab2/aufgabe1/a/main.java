@@ -63,6 +63,10 @@ public class main {
 
         List<int[]> perms = permutations(array);
         if (IS_AUFGABE_B){
+            // "Beschreiben Sie, wie Sie eine zufallige Permutation erzeugen, so dass jede gleichwahrscheinlich ist."
+            // Es wird zufällig aus allen möglichen Permutationen gewählt. Somit hängt die "Wahrscheinlichkeit" vom
+            // jeweiligen Algorithmus ab, der die Zufallszahlen generiert, da alle Permutationen in der Liste gleich oft
+            // vorkommen und somit für jedes Element die Wahrscheinlichkeit 1/n besteht.
             Random random = new Random();
             while (true){
                 BENCHMARK_permCount++;
