@@ -2,6 +2,7 @@ package common;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -43,6 +44,18 @@ public class Helper {
             }
         }
         return true;
+    }
+
+    public static int getRandomValue(int[] a){
+        Random random = new Random();
+        int i = random.nextInt(a.length);
+        return a[i];
+    }
+
+    public static void swap (int[] array, int a, int b){
+        int temp = array[a];
+        array[a] = array[b];
+        array[b] = temp;
     }
 
 }
