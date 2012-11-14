@@ -16,7 +16,8 @@ import java.util.Random;
 public class main {
 
     public static void main (String[] args){
-        int size = 10000;
+        int size = 10000000;
+        int k = 5;
 
         int[] arr = new int[size];
         Random random = new Random();
@@ -24,10 +25,30 @@ public class main {
             arr[i] = random.nextInt(100);
         }
 
-        for(int i = 1; i < size; i++){
-            System.out.println(i + "rec>" + select(arr, i));
-        }
+        // == Messungsstart
+        long start = System.currentTimeMillis();
+
+        //**
+
+        int selected = select(arr,k);
+
+        //**
+
+        long end = System.currentTimeMillis();
+        long elapsed = end - start;
+        System.out.println("elapsed millis: " + elapsed + " , rec depth:" + BENCHMARK_rec_depth);
+        // == Messungsende
+
+        //=========================================
+        //=    M E S S E R G E B N I S S E        =
+        //=========================================
+        //              100 -> 1 milli      -> 1/100
+        //           10.000 -> 10 millis    -> 1/1000
+        //        1.000.000 -> 152 millis   -> 19/125000
+        //       10.000.000 -> 777 millis   -> 7.77 * 10^-05
     }
+
+    private static int BENCHMARK_rec_depth = 0;
 
     /**
      * Laufzeit
@@ -35,6 +56,9 @@ public class main {
      * Schritt nur noch mit ungefähr der Hälfte, N/2, und so weiter.
      * Laufzeit = n + n/2 + n/4 ...
      * Laufzeit - (Laufzeit/2) = n
+     * Laufzeit/2 = n
+     * Laufzeit = 2n
+     * Laufzeit = O(n)
      *
      * @param a the target array
      * @param k th element should be selected
@@ -55,6 +79,7 @@ public class main {
      * @return
      */
     private static int select(List<Integer>a,int k){
+        BENCHMARK_rec_depth++;
         int pivot = a.get((a.size()-1)/2);
         List<Integer> smaller = new ArrayList<Integer>();
         List<Integer> equal = new ArrayList<Integer>();
