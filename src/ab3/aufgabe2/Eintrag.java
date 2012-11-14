@@ -19,4 +19,9 @@ public class Eintrag<S extends Comparable<S>,W> {
 
     public S getS(){return this.s;}
     public W getW(){return this.w;}
+
+    @Override
+    public String toString(){
+        return "{S:" + this.getS() + ",W:" + this.getW() + "}";
+    }
 }
