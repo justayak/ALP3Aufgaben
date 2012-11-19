@@ -1,5 +1,7 @@
 package ab3.aufgabe2;
 
+import common.Eintrag;
+
 import java.util.ArrayList;
 import java.util.List;
 

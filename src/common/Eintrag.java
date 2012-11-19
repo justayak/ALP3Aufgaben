@@ -1,4 +1,4 @@
-package ab3.aufgabe2;
+package common;
 
 /**
  * Created with IntelliJ IDEA.
@@ -7,7 +7,7 @@ package ab3.aufgabe2;
  * Time: 20:18
  * To change this template use File | Settings | File Templates.
  */
-public class Eintrag<S extends Comparable<S>,W> {
+public class Eintrag<S,W> {
 
     private S s;
     private W w;

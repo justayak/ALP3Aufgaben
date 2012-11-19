@@ -1,5 +1,7 @@
 package ab3.aufgabe2;
 
+import common.Eintrag;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Baka
