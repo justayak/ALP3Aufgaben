@@ -1,7 +1,5 @@
 package ab3.aufgabe1;
 
-import common.Helper;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
