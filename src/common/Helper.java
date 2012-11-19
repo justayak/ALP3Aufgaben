@@ -1,5 +1,8 @@
 package common;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -46,16 +49,27 @@ public class Helper {
         return true;
     }
 
-    public static int getRandomValue(int[] a){
-        Random random = new Random();
-        int i = random.nextInt(a.length);
-        return a[i];
-    }
-
     public static void swap (int[] array, int a, int b){
         int temp = array[a];
         array[a] = array[b];
         array[b] = temp;
+    }
+
+    /**
+     * serializes an object to an byte[]
+     * @param obj
+     * @return
+     */
+    public static byte[] serialize(Object obj) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ObjectOutputStream os;
+        try{
+            os = new ObjectOutputStream(out);
+            os.writeObject(obj);
+        }catch (IOException e){
+            System.out.println("shit!");
+        }
+        return out.toByteArray();
     }
 
 }
