@@ -15,10 +15,10 @@ import java.util.Collection;
 public class main {
 
     public static void main (String[]args){
-        Woerterbuch<Integer,String> wb = new Woerterbuch<Integer, String>();
-        Eintrag<Integer, String> eintrag = new Eintrag<Integer, String>(1, "hallo");
-        Eintrag<Integer, String> eintrag1 = new Eintrag<Integer, String>(3, "hallo1");
-        Eintrag<Integer, String> eintrag2 = new Eintrag<Integer, String>(1, "hallo2");
+        Woerterbuch<String,String> wb = new Woerterbuch<String, String>();
+        Eintrag<String, String> eintrag = new Eintrag<String, String>("lol", "hallo");
+        Eintrag<String, String> eintrag1 = new Eintrag<String, String>("lol", "hallo1");
+        Eintrag<String, String> eintrag2 = new Eintrag<String, String>("how", "hallo2");
         wb.einfuege(eintrag);
         wb.einfuege(eintrag1);
         wb.einfuege(eintrag2);
@@ -26,12 +26,12 @@ public class main {
         wb.streiche(eintrag);
         System.out.println(wb.groesse());
 
-        Collection<Eintrag<Integer,String>> result = wb.findeAlle(1);
+        Collection<Eintrag<Integer,String>> result = wb.findeAlle("lol");
         for(Eintrag<Integer,String> e : result){
             System.out.println(e.getW());
         }
 
-        System.out.println(wb.finde(3).getW());
+        System.out.println(wb.finde("how").getW());
 
 
     }
