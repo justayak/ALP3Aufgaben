@@ -72,4 +72,24 @@ public class Helper {
         return out.toByteArray();
     }
 
+    public static int getMaxValue(int[] numbers){
+        int maxValue = numbers[0];
+        for(int i=1;i < numbers.length;i++){
+            if(numbers[i] > maxValue){
+                maxValue = numbers[i];
+            }
+        }
+        return maxValue;
+    }
+
+    public static int getCountNonNull(int[] numbers){
+        int count = 0;
+        for(int i : numbers){
+            if (i != 0){
+                count += 1;
+            }
+        }
+        return count;
+    }
+
 }
