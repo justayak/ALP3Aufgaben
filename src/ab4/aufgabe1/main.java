@@ -47,7 +47,7 @@ public class main {
         System.out.println("#1: Number of total Collisions: " + Helper.getCountNonNull(h1Collisions) + " >> Most Collisions: " + Helper.getMaxValue(h1Collisions));
         System.out.println("#2: Number of total Collisions: " + Helper.getCountNonNull(h2Collisions) + " >> Most Collisions: " + Helper.getMaxValue(h2Collisions));
         System.out.println("#3: Number of total Collisions: " + Helper.getCountNonNull(h3Collisions) + " >> Most Collisions: " + Helper.getMaxValue(h3Collisions));
-        System.out.println("#2: Number of total Collisions: " + Helper.getCountNonNull(h4Collisions) + " >> Most Collisions: " + Helper.getMaxValue(h4Collisions));
+        System.out.println("#4: Number of total Collisions: " + Helper.getCountNonNull(h4Collisions) + " >> Most Collisions: " + Helper.getMaxValue(h4Collisions));
 
 
         /*
