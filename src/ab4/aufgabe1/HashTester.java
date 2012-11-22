@@ -70,4 +70,35 @@ public final class HashTester {
         return (int)Math.abs(hash%m);
     }
 
+
+    public static int hash5(String str, int m){
+        char [] data = str.toCharArray();
+        long hash = 0;
+        int prim = 7;
+        int i = 0;
+        for(char e : data){
+            hash += (e + i) % prim;
+            i++;
+        }
+        return (int)hash%m;
+    }
+
+    /**
+     * http://en.wikipedia.org/wiki/MD5
+     * @param str
+     * @param m
+     * @return
+     */
+    public static int hash6(String str, int m){
+        char [] data = str.toCharArray();
+        int maxShift = 9; // shift one round of integer 00000000
+        int hash = 0;
+        int i = 0;
+        for (char c : data){
+            hash += c << (i%maxShift);
+            i++;
+        }
+        return Math.abs(hash)%m;
+    }
+
 }
