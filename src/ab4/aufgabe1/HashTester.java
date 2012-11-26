@@ -1,9 +1,5 @@
 package ab4.aufgabe1;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created with IntelliJ IDEA.
  * User: Baka
@@ -55,7 +51,6 @@ public final class HashTester {
 
     /**
      * Shift-Add_XOR
-     *
      * @param str
      * @param m
      * @return
@@ -68,6 +63,44 @@ public final class HashTester {
             hash ^= ( hash << 5) + (hash >>> 2) + e;
         }
         return (int)Math.abs(hash%m);
+    }
+
+    /**
+     * Summiert modulo einer primzahl auf jeden charcter + index. Schwach, da der Modulo die Varianz stark beschränkt.
+     * Reihenfolge wird beachtet
+     * @param str
+     * @param m
+     * @return
+     */
+    public static int hash5(String str, int m){
+        char [] data = str.toCharArray();
+        long hash = 0;
+        int prim = 7;
+        int i = 0;
+        for(char e : data){
+            hash += (e + i) % prim;
+            i++;
+        }
+        return (int)hash%m;
+    }
+
+    /**
+     * Shiftet jeden einzelnen Wert abhängig von seiner Position im String. Dadurch entsteht
+     * eine relativ gute Durchmischung (im Vergleich zu den anderen Funktionen)
+     * @param str
+     * @param m
+     * @return
+     */
+    public static int hash6(String str, int m){
+        char [] data = str.toCharArray();
+        int maxShift = 9; // shift one round of integer 00000000
+        int hash = 0;
+        int i = 0;
+        for (char c : data){
+            hash += c << (i%maxShift);
+            i++;
+        }
+        return Math.abs(hash)%m;
     }
 
 }
