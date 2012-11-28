@@ -1,6 +1,8 @@
 package ab5.aufgabe1;
 
 import java.util.Arrays;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,73 +14,94 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args){
-        int size = 20;
+
+        int size = 10000;
         Integer[] list = new Integer[size];
+        Random random = new Random();
+
+        System.out.println("Generating...");
+        final int STEP = 10000;
         for (int i = 0; i < list.length; i++){
             //list[i] = (int)Math.pow(2,i);
             //list[i] = i;
-            list[i] = i % 2 == 0 ? i : i - 1;
+            //list[i] = i % 2 == 0 ? i : i - 1;
+            int value = random.nextInt(100);
+            list[i] = value % 2 == 0 ? value : value + 1;
+            if (i % STEP == 0){
+                System.out.println("reached:" + i);
+            }
         }
-        int searchItem = 5;
+        Arrays.sort(list);
+        System.out.println("Generated");
+        int searchItem = 12;
         System.out.println("Suche nach: " + searchItem + " Listengröße: " + size);
-        System.out.println("#1:" + binarySearch(list,searchItem) + " >recursion depth:" + PERFORMANCE_RECURSION_DEPTH + " [Binärsuche]");
-        System.out.println("#2:" + interpolationSearch(list,searchItem) + " >recursion depth:" + PERFORMANCE_RECURSION_DEPTH_INTER + " [Interpolationssuche]");
+
+        long startBinary = System.nanoTime();
+        Object result = binarySearch(list,searchItem);
+        long endBinary = System.nanoTime();
+        long dtBinary = endBinary - startBinary;
+        System.out.println("#1:elapsed:" + dtBinary + " nanos >recursion depth:" + PERFORMANCE_RECURSION_DEPTH + " > FOUND: " + result + " [Binärsuche]");
+
+        //Long dtInterp = new Long(0);
+        long[] dtInterp = new long[1];
+        int resultI = interpolationSearch(list,searchItem, dtInterp);
+        System.out.println("#2:elapsed:" + dtInterp[0] + " nanos >recursion depth:" + PERFORMANCE_RECURSION_DEPTH_INTER + " > FOUND: " + resultI + " [Interpolationssuche]");
     }
 
     /*
 ======================================================================
 S T A T I S T I C S
 ======================================================================
-*********************************************
-*********************************************
-fill-function: A[n] = 2^n
-*********************************************
-Suche nach: 128 Listengröße: 10
-#1:128 >recursion depth:3 [Binärsuche]
-#2:128 >recursion depth:4 [Interpolationssuche]
+Suche nach: 12 Listengröße: 1.000
+#1:elapsed:363.177 nanos >recursion depth:5 > FOUND: 12 [Binärsuche]
+#2:elapsed:6.792 nanos >recursion depth:2 > FOUND: 12 [Interpolationssuche]
 
-Suche nach: 128 Listengröße: 50
-#1:128 >recursion depth:6 [Binärsuche]
-#2:128 >recursion depth:8 [Interpolationssuche]
+Suche nach: 12 Listengröße: 10.000
+#1:elapsed:499.976 nanos >recursion depth:3 > FOUND: 12 [Binärsuche]
+#2:elapsed:3.881 nanos >recursion depth:1 > FOUND: 12 [Interpolationssuche]
 
-Suche nach: 128 Listengröße: 200
-#1:128 >recursion depth:8 [Binärsuche]
-#2:128 >recursion depth:8 [Interpolationssuche]
+Suche nach: 12 Listengröße: 100.000
+#1:elapsed:646.153 nanos >recursion depth:3 > FOUND: 12 [Binärsuche]
+#2:elapsed:9.055 nanos >recursion depth:1 > FOUND: 12 [Interpolationssuche]
 
-Suche nach: 128 Listengröße: 500
-#1:128 >recursion depth:6 [Binärsuche]
-#2:128 >recursion depth:8 [Interpolationssuche]
-*********************************************
-*********************************************
-fill-function: A[n] = n
-*********************************************
-Suche nach: 4 Listengröße: 10
-#1:4 >recursion depth:3 [Binärsuche]
-#2:4 >recursion depth:1 [Interpolationssuche]
+Suche nach: 12 Listengröße: 1.000.000
+#1:elapsed:2.706.856 nanos >recursion depth:3 > FOUND: 12 [Binärsuche]
+#2:elapsed:34.604 nanos >recursion depth:1 > FOUND: 12 [Interpolationssuche]
 
-Suche nach: 4 Listengröße: 50
-#1:4 >recursion depth:6 [Binärsuche]
-#2:4 >recursion depth:1 [Interpolationssuche]
+Suche nach: 12 Listengröße: 10.000.000
+#1:elapsed:26.150.753 nanos >recursion depth:3 > FOUND: 12 [Binärsuche]
+#2:elapsed:51.097 nanos >recursion depth:1 > FOUND: 12 [Interpolationssuche]
 
-Suche nach: 4 Listengröße: 500
-#1:4 >recursion depth:9 [Binärsuche]
-#2:4 >recursion depth:1 [Interpolationssuche]
+Legende:
+* = Interpolation
++ = Binär
 
-*********************************************
-fill-function: A[n] = { grade: i, ungrade: i-1}
-*********************************************
-Suche nach: 6 Listengröße: 500
-#1:6 >recursion depth:6 [Binärsuche]
-#2:6 >recursion depth:1 [Interpolationssuche]
-
-/nicht findbares item:
-Suche nach: 5 Listengröße: 20
-#1:null >recursion depth:5 [Binärsuche]
-#2:-1 >recursion depth:2 [Interpolationssuche]
-
-Suche nach: 6 Listengröße: 20
-#1:6 >recursion depth:4 [Binärsuche]
-#2:6 >recursion depth:1 [Interpolationssuche]
+    y (nanos in 1000)
+    ^
+2500|                       +
+2000|               +
+----------------------------------------------------------------------------------
+1325|
+1225|
+1025|
+825 |
+625 |         +
+425 |      +
+-------------------------------------------------------------------------------
+325 | +
+325 |
+300 |
+275 |
+250 |
+225 |
+200 |
+150 |
+125 |
+100 |
+ 75 |
+ 50 |                          *
+ 25 | *    *    *      *
+    #-1- -10- -100- -1.000- -10.000- --> x (listsize in 1000)
 
      */
 
@@ -117,13 +140,17 @@ Suche nach: 6 Listengröße: 20
         return null;
     }
 
-    public static int interpolationSearch(Integer[] list, int item){
+    public static int interpolationSearch(Integer[] list, int item, long[] dt){
         // convert..
         int[] r = new int[list.length];
         for(int i = 0; i < list.length; i++){
             r[i] = list[i];
         }
-        return interpolationSearch(r,item);
+        long startInterp = System.nanoTime();
+        int result = interpolationSearch(r,item);
+        long endInterp = System.nanoTime();
+        dt[0] = endInterp - startInterp;
+        return result;
     }
 
     /**
