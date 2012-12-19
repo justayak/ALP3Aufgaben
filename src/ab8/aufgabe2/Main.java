@@ -15,7 +15,6 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        // Text gewichten..
         String text = Helper.loadText("EinWinterMaerchen");
 
         // Aufgabe 2(a)
@@ -50,7 +49,7 @@ public class Main {
 
     }
 
-    private static int CHARCOUNT_HUFFMAN = 2;
+    private static int CHARCOUNT_HUFFMAN = 1;
 
     /**
      *
@@ -58,6 +57,7 @@ public class Main {
      * @return
      */
     public static String huffmanify(String text){
+        // Text gewichten..
         Tokens tokens = new Tokens();
         for(int i = 0; i < text.length(); i++){
             String token = "";
