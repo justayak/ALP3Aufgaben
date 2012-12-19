@@ -3,10 +3,7 @@ package ab8.aufgabe2;
 import common.Helper;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.SortedSet;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,22 +15,26 @@ import java.util.SortedSet;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        // Text gewichten:
+        // Text gewichten..
         String text = Helper.loadText("EinWinterMaerchen");
         Tokens tokens = new Tokens();
         for(int i = 0; i < text.length(); i++){
             tokens.addToken(text.substring(i,i+1));
         }
 
-        tokens.getLeafs();
+        // Huffman-Tree bauen..
+        PriorityQueue<Node> leafs = tokens.getLeafs();
+        while (leafs.size()>1){
+            Node left = leafs.poll();
+            Node right = leafs.poll();
+            Node parent = new Node(left,right);
+            leafs.add(parent);
+        };
+        Node huffmanTree = leafs.poll();
+
+        System.out.print("q");
     }
 
-
-    private static class HuffmanGraph{
-
-
-
-    }
 
     /**
      *
@@ -43,7 +44,6 @@ public class Main {
          * ctor for Leafs
          */
         public Node(String token, int weight){
-            this.IsLeaf = true;
             this.Token = token;
             this.Weight = weight;
         }
@@ -52,7 +52,6 @@ public class Main {
          * ctor for inner node (or root)
          */
         public Node(Node left, Node right){
-            this.IsLeaf = false;
             this.Left = left;
             this.Right = right;
             left.parent = this;
@@ -61,7 +60,6 @@ public class Main {
         }
 
         public int Weight;
-        public boolean IsLeaf;
         public String Token;
         public Node Left;
         public Node Right;
@@ -84,12 +82,14 @@ public class Main {
             }
             this.data.put(t, value + 1);
         }
-        public void getLeafs(){
+        public PriorityQueue<Node> getLeafs(){
+            PriorityQueue<Node> result = new PriorityQueue<Node>();
             Iterator it = this.data.entrySet().iterator();
             while (it.hasNext()){
                 Map.Entry<String, Integer> pair = (Map.Entry)it.next();
-                System.out.println(">" + pair.getKey() + " -- " + pair.getValue());
+                result.add(new Node(pair.getKey(),pair.getValue()));
             }
+            return result;
         }
     }
 
