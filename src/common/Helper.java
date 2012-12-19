@@ -1,8 +1,9 @@
 package common;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -90,6 +91,26 @@ public class Helper {
             }
         }
         return count;
+    }
+
+    /**
+     * loads the title text file
+     * @param title
+     * @return
+     * @throws IOException
+     */
+    public static String loadText(String title) throws IOException {
+        String path = System.getProperty("user.dir") + "/res/" + title;
+        FileInputStream stream = new FileInputStream(new File(path));
+        try {
+            FileChannel fc = stream.getChannel();
+            MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+            /* Instead of using default, pass in a decoder. */
+            return Charset.defaultCharset().decode(bb).toString();
+        }
+        finally {
+            stream.close();
+        }
     }
 
 }
