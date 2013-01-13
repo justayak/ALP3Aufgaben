@@ -21,6 +21,8 @@ public class ImplGraph implements Graph<Integer> {
      */
     private HashMap<Node<Integer>, ArrayList<Node<Integer>>> adjacencyList = new HashMap<Node<Integer>, ArrayList<Node<Integer>>>();
 
+    private HashSet<Node<Integer>> visited = new HashSet<Node<Integer>>();
+
     @Override
     public Node[] nodes() {
         Set<Node<Integer>> set = this.adjacencyList.keySet();
@@ -189,21 +191,50 @@ public class ImplGraph implements Graph<Integer> {
     }
 
     /**
-     * Aufgabe b
+     * @return dfs wenn gefunden, ansonsten NULL
      */
     @Override
     public Graph<Integer> dfs(Node<Integer> start, Node<Integer> goal) {
-        if (start.value() == goal.value()){
-
-        }
-
-
-
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        this.unvisitAllNodes();
+        Graph<Integer> dfs = new ImplGraph();
+        dfs.setNode(start.value());
+        boolean found = this.dfs(start,goal,dfs);
+        return found ? dfs : null;
     }
 
-    private void dfsRec(Node<Integer> start, Node<Integer> goal, Graph<Integer> accumulator){
+    private boolean dfs(final Node<Integer> node, final Node<Integer> goal, Graph<Integer> accumulator){
+        try {
+            this.visitNode(node);
+            if(node.value() == goal.value()){
+                return true;
+            }
+            ArrayList<Node<Integer>> stack = this.adjacencyList.get(node);
+            for (Node<Integer> next : stack){
+                if (!this.isVisited(next) && next.value() != node.value()){
+                    accumulator.setNode(next.value());
+                    accumulator.setEdge(next,node);
+                    if(dfs(next, goal,accumulator)){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } catch (NodeNotFoundException e) {
+            System.out.println("darf net passiern damn!");
+            return false;
+        }
+    }
 
+    private void visitNode(Node<Integer> node){
+        this.visited.add(node);
+    }
+
+    private boolean isVisited(Node<Integer> node){
+        return this.visited.contains(node);
+    }
+
+    private void unvisitAllNodes(){
+        this.visited = new HashSet<Node<Integer>>();
     }
 
     private HashSet<Integer> getAdjPos(Node<Integer>[] sortedKeys, ArrayList<Node<Integer>> adj){
