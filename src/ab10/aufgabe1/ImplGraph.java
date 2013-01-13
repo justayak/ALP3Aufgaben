@@ -1,6 +1,10 @@
 package ab10.aufgabe1;
 
+import com.sun.javafx.scene.layout.region.Margins;
+import common.Helper;
+
 import java.io.Console;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -69,8 +73,10 @@ public class ImplGraph implements Graph<Integer> {
         if(!this.adj(v,e)){
             ArrayList<Node<Integer>> one = this.adjacencyList.get(v);
             one.add(e);
-            ArrayList<Node<Integer>> two = this.adjacencyList.get(e);
-            one.add(v);
+            if (e.value() != v.value()){ // Sonst würde bei einem "Selbstverweis" der Eintrag doppelt gesetzt werden!
+                ArrayList<Node<Integer>> two = this.adjacencyList.get(e);
+                two.add(v);
+            }
         }
     }
 
@@ -117,6 +123,9 @@ public class ImplGraph implements Graph<Integer> {
                 sb.append("\t");
                 if(j==i){
                     sb.append(current.value());
+                    if (adjPositions.contains(j)){ // Bei "Selbstverweis"
+                        sb.append(adjSymbol);
+                    }
                 }else if (j > i){
                     if (adjPositions.contains(j)){
                         sb.append(adjSymbol);
@@ -131,22 +140,77 @@ public class ImplGraph implements Graph<Integer> {
         System.out.println(sb.toString());
     }
 
+    /**
+     * Aufgabe b
+     */
+    @Override
+    public void save(String fileName) {
+        StringBuilder sb = new StringBuilder();
+        if(this.adjacencyList.size() > 0){
+            Node<Integer>[] keys = this.adjacencyList.keySet().toArray(new Node[0]);
+            Arrays.sort(keys);
+            for(int i = 0; i < keys.length; i++){
+                Node<Integer> current  = keys[i];
+                ArrayList<Node<Integer>> adj = this.adjacencyList.get(current);
+                for(Node<Integer> adjElement : adj){
+                    if (adjElement.value() >= current.value()){
+                        sb.append(current.value());
+                        sb.append("-");
+                        sb.append(adjElement.value());
+                        sb.append("\r\n");
+                    }
+                }
+            }
+        }
+        Helper.writeText(fileName,sb.toString());
+    }
+
+    /**
+     * Aufgabe b
+     */
+    @Override
+    public void load(String fileName) {
+        try {
+            String content = Helper.loadText(fileName);
+            String[] lines = content.split("\r\n");
+            ImplGraph newGraph = new ImplGraph();
+            for(String line : lines){
+                String[] edge = line.split("-");
+                Node<Integer> a = newGraph.setNode(Integer.parseInt(edge[0]));
+                Node<Integer> b = newGraph.setNode(Integer.parseInt(edge[1]));
+                newGraph.setEdge(a,b);
+            }
+            this.adjacencyList = newGraph.adjacencyList;
+        } catch (IOException e) {
+            System.out.println("Ladefehler... fuck!");
+        } catch (Exception e) {
+            System.out.println("AnyFehler... fuck!");
+        }
+    }
+
+    /**
+     * Aufgabe b
+     */
+    @Override
+    public Graph<Integer> dfs(Node<Integer> start, Node<Integer> goal) {
+        if (start.value() == goal.value()){
+
+        }
+
+
+
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private void dfsRec(Node<Integer> start, Node<Integer> goal, Graph<Integer> accumulator){
+
+    }
+
     private HashSet<Integer> getAdjPos(Node<Integer>[] sortedKeys, ArrayList<Node<Integer>> adj){
         HashSet<Integer> result = new HashSet<Integer>();
         for(Node<Integer> value : adj){
             result.add(Arrays.binarySearch(sortedKeys, value));
         }
         return result;
-    }
-
-    /**
-     * Aufgabe b
-     *
-     * @param searchedValue
-     * @return dfs-Graph
-     */
-    @Override
-    public Graph<Integer> dfs(Integer searchedValue) {
-        return null;
     }
 }

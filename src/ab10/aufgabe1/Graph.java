@@ -11,7 +11,7 @@ import java.util.HashMap;
  * Time: 21:56
  * To change this template use File | Settings | File Templates.
  */
-public interface Graph<N extends Comparable<N>> extends Serializable {
+public interface Graph<N extends Comparable<N>> {
     Node[] nodes();
     boolean adj(Node<N> v, Node<N> u)
             throws NodeNotFoundException;
@@ -36,8 +36,16 @@ public interface Graph<N extends Comparable<N>> extends Serializable {
 
     /**
      * Aufgabe b
-     * @param searchedValue
-     * @return dfs-Graph
      */
-    Graph<N> dfs(N searchedValue);
+    void save(String fileName);
+
+    /**
+     * Aufgabe b
+     */
+    void load(String fileName);
+
+    /**
+     * Aufgabe b
+     */
+    Graph<N> dfs(Node<N> start, Node<N> goal);
 }

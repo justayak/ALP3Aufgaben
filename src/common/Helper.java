@@ -113,4 +113,25 @@ public class Helper {
         }
     }
 
+    /**
+     * writes the text file. Delete file if exists
+     * @param file
+     * @param text
+     */
+    public static void writeText(String file, String text){
+        String path = System.getProperty("user.dir") + "/res/" + file;
+        File f = new File(path);
+        if (f.exists()){
+            f.delete();
+        }
+        try{
+            FileWriter fstream = new FileWriter(path);
+            BufferedWriter out = new BufferedWriter(fstream);
+            out.write(text);
+            out.close();
+        }catch (Exception e){
+            System.err.println("Error: " + e.getMessage());
+        }
+    }
+
 }

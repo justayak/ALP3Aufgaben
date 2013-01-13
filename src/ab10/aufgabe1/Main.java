@@ -28,8 +28,17 @@ public class Main {
         graph.setEdge(node3, node6);
         graph.setEdge(node3, node7);
 
+        graph.setEdge(node7, node1);
+
+        graph.setEdge(node7, node7);
+        graph.setEdge(node4, node4);
+
         graph.print();
 
+        graph.save("aufgabe10");
+        graph.load("aufgabe10");
+
+        graph.print();
     }
 
 }
