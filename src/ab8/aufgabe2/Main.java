@@ -19,6 +19,7 @@ public class Main {
 
         // Aufgabe 2(a)
         String result = huffmanify(text);
+
         System.out.println(result);
         System.out.println(result.length() + " > Huffman-Bitcount");
         int asciiSize = text.length() * 8;
