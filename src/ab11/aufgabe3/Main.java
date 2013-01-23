@@ -17,6 +17,8 @@ public class Main {
         graph.node(2,"hallo");
         graph.node(3,"hallo");
 
+        graph.node(10,"hallo1");
+
         graph.edge(0,1,100);
         graph.edge(0,2,50);
         graph.edge(1,3,10);

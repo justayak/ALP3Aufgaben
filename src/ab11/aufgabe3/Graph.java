@@ -106,11 +106,12 @@ public class Graph implements IGraph {
      * @return
      */
     private void create(int newNode){
+        int newLimit = newNode + 1; // damit der node ins Array passt
         double [][] former = this.matrix != null ? this.matrix : new double[0][0];
-        double [][] matrix = new double[newNode][newNode];
+        double [][] matrix = new double[newLimit][newLimit];
         int formerLength = former.length;
-        for(int i = 0; i < newNode; i++){
-            for(int j = 0; j < newNode; j++){
+        for(int i = 0; i < newLimit; i++){
+            for(int j = 0; j < newLimit; j++){
                 if (i < formerLength && j < formerLength){
                     matrix[i][j] = former[i][j];
                 }else {
@@ -122,7 +123,7 @@ public class Graph implements IGraph {
 
         // nodesValues:
         String[] formerNodes = this.nodesValues != null ? this.nodesValues : new String[0];
-        String[] nodes = new String[newNode];
+        String[] nodes = new String[newLimit];
         for(int i = 0; i < formerNodes.length; i++){
             nodes[i] = formerNodes[i];
         }
