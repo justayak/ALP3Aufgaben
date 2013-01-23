@@ -16,7 +16,7 @@ public class Graph implements IGraph {
     private static final double NO_EDGE = Double.POSITIVE_INFINITY;
     private static final int DEFAULT_SIZE = 6;
 
-    private List<Integer> nodes;
+    private List<Integer> nodes = this.nodes = new ArrayList<Integer>();
     private String[] nodesValues;
     private double [][] matrix;
 
@@ -123,12 +123,11 @@ public class Graph implements IGraph {
 
         // nodesValues:
         String[] formerNodes = this.nodesValues != null ? this.nodesValues : new String[0];
-        String[] nodes = new String[newLimit];
+        String[] nodesValues = new String[newLimit];
         for(int i = 0; i < formerNodes.length; i++){
-            nodes[i] = formerNodes[i];
+            nodesValues[i] = formerNodes[i];
         }
-        this.nodesValues = nodes;
-        this.nodes = new ArrayList<Integer>();
+        this.nodesValues = nodesValues;
     }
 
     private boolean exists(int key){
