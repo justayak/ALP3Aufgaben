@@ -48,7 +48,7 @@ public class Main {
         };
 
         FloydWarshall alg = new FloydWarshall(nodes,edges);
-        List<Node> shortestPath = alg.getShortestPath(a,h);
+        List<Node> shortestPath = alg.shortestPath(a,h);
         for(Node node : shortestPath){
             System.out.println(" ==> " + node.content());
         }

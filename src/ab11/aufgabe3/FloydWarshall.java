@@ -23,11 +23,7 @@ public class FloydWarshall {
         this.init(nodes,edges);
     }
 
-    public float getShortestDistance(Node source, Node target){
-        return D[source.key][target.key];
-    }
-
-    public List<Node> getShortestPath(Node source, Node target){
+    public List<Node> shortestPath(Node source, Node target){
         if(D[source.key][target.key] == Float.POSITIVE_INFINITY){
             return new ArrayList<Node>();
         }
