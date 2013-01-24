@@ -1,0 +1,44 @@
+Geben Sie Anwendungsbeispiele an, bei denen der Floyd-Warshall-Algorithmus
+sinvoll ist, wenn man die Operationen min und + ersetzt durch min und max
+sowie max und min. Durch welchen Wert muss 0 in der Initialisierung von
+
+    (0)
+d
+    i;j
+
+jeweils ersetzt werden?
+
+==============================================
+
++ Floyd-Warshall
+shortest(i,j,k) = min(shortest(i,j,k-1), shortest(i,k,k-1) + shortest(k,j,k-1))
+
+==============================================
++ Mutant I
+shortest(i,j,k) = min(shortest(i,j,k-1), max(shortest(i,k,k-1), shortest(k,j,k-1))
+
+ (0)
+d    sollte mit 0 initialisiert werden
+ i;j
+
+Finde einen Pfad zwischen zwei Knoten, der die maximalen Kosten am Pfad minimiert.
+-->
+Für Navigation mit begrenztem Tank. Eine Strecke mag in der Gesamtlänge kürzer
+sein, hat aber "zu lange" Einzelstrecken, sodass das Benzin ausgeht.
+Mit "+Mutant I" wird der Pfad gewählt, der am sichersten zum Ziel führt (angenommen,
+an jedem Knoten gibt es eine Tankstelle)
+
+==============================================
++ Mutant II
+shortest(i,j,k) = max(shortest(i,j,k-1), min(shortest(i,k,k-1), shortest(k,j,k-1))
+
+ (0)
+d    sollte mit 0 initialisiert werden
+ i;j
+
+Finde einen Pfad zwischen zwei Knoten, der die minimalen Kosten am Pfad maximiert.
+-->
+Wieder Navigation: man möchte mit einem Transporter möglichst viel mitnehmen, auf
+den Straßen gibt es jedoch eine Gewichtsbeschränkung. Mit "Mutant II" wird der Weg
+mit den höchsten Teilkosten pro Strecke gewählt, also die, die am meisten Gewicht
+erlauben.
